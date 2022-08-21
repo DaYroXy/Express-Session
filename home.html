@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    
+    <h1 id="userId"></h1>
+    <h1 id="username"></h1>
+    <h1 id="password"></h1>
+    <button onclick="signout()">SIGN OUT</button>
+    
+    <script>
+        let userIdElement = document.getElementById("userId");
+        let usernameElement = document.getElementById("username");
+        let passwordElement = document.getElementById("password");
+
+        fetch("http://localhost:4200/me").then(res => res.json()).then(res => {
+            userIdElement.textContent = `userId: ${res._id}`;
+            usernameElement.textContent = `username: ${res.username}`;
+            passwordElement.textContent = `password ${res.password}`;
+        })
+
+        // Signout Function
+
+        function signout() {
+            fetch("http://localhost:4200/signout").then(res => {
+                window.location.href = "/login";
+            })
+        }
+
+    </script>
+</body>
+</html>

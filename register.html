@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        .sucess {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    
+    <form class="Register">
+        <h1>Register</h1>
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" value="Register">
+        <a href="./login">login</a>
+        <p class="status"></p>
+    </form>
+    
+
+    <script>
+
+        const form = document.querySelector('.Register');
+        form.addEventListener('submit', (event) => {
+            // to not reload the page on submit
+            event.preventDefault();
+
+            // Get data from form
+            const formData = new FormData(form);
+
+            // get username, password from form
+            const username = formData.get("username");
+            const password = formData.get("password");
+
+            // create an object with the data
+            const data = {
+                username,
+                password
+            };
+
+
+            // send the data to the server
+            fetch("http://localhost:4200/register", {
+                // Send Post request
+                method: "POST",
+
+                // Send data as json inside of the body
+                body: JSON.stringify(data),
+
+                // Set content type to json
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+            // then get the result and convert it to json
+            .then(res => res.json())
+            
+            // then validate the data
+            .then(res => {
+                
+                // Get status element
+                let statusElement = document.querySelector(".status");
+                
+                // check for errors
+                if(res.status === "error") {
+
+                    // if errors, remove success class and add error class
+                    statusElement.classList.remove("sucess");
+                    statusElement.classList.add("error");
+                } else {
+                    window.location.href = "/login"
+                }
+
+                // Add response message to status element
+                statusElement.textContent = res.message;
+            })
+            
+        })
+
+    </script>
+</body>
+</html>
