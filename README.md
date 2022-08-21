@@ -2,4 +2,6 @@
 Register/Login Tutorial
 
 # How to use
-* [Install Modules]( run: npm i )
+* npm i - to install the modules
+* node . - to start the server
+* goto http://localhost:4200/ - and follow the instructions
